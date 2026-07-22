@@ -196,6 +196,7 @@ class StreamedAudioResult:
 
                 # Signal completion for whole session because of error
                 await local_queue.put(VoiceStreamEventLifecycle(event="session_ended"))
+                await local_queue.put(None)
                 raise e
 
     async def _add_text(self, text: str):
@@ -292,7 +293,10 @@ class StreamedAudioResult:
             self.text_generation_task.cancel()
 
     def _check_errors(self):
-        for task in self._tasks:
+        all_tasks = list(self._tasks)
+        if self.text_generation_task is not None:
+            all_tasks.append(self.text_generation_task)
+        for task in all_tasks:
             if task.done():
                 if task.exception():
                     self._stored_exception = task.exception()
