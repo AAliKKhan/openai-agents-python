@@ -120,7 +120,7 @@ def _populate_state_from_result(
     if isinstance(model_input_items, list):
         state._generated_items = list(model_input_items)
     else:
-        state._generated_items = result.new_items
+        state._generated_items = list(result.new_items)
     state._session_items = list(result.new_items)
     snapshot_refs = _state_snapshot_owned_item_refs(result, state._original_input)
     live_refs = rebase_nested_history_owned_item_refs(
