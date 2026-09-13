@@ -117,7 +117,7 @@ class StreamedAudioInput:
     and then push audio data into the queue using the `add_audio` method.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.queue: asyncio.Queue[npt.NDArray[np.int16 | np.float32] | None] = asyncio.Queue()
 
     async def add_audio(self, audio: npt.NDArray[np.int16 | np.float32] | None) -> None:

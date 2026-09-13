@@ -95,19 +95,19 @@ class SynchronousMultiTracingProcessor(TracingProcessor):
     Forwards all calls to a list of TracingProcessors, in order of registration.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         # Using a tuple to avoid race conditions when iterating over processors
         self._processors: tuple[TracingProcessor, ...] = ()
         self._lock = threading.Lock()
 
-    def add_tracing_processor(self, tracing_processor: TracingProcessor):
+    def add_tracing_processor(self, tracing_processor: TracingProcessor) -> None:
         """
         Add a processor to the list of processors. Each processor will receive all traces/spans.
         """
         with self._lock:
             self._processors += (tracing_processor,)
 
-    def set_processors(self, processors: list[TracingProcessor]):
+    def set_processors(self, processors: list[TracingProcessor]) -> None:
         """
         Set the list of processors. This will replace the current list of processors.
         """
@@ -305,13 +305,13 @@ class DefaultTraceProvider(TraceProvider):
         self._manual_disabled: bool | None = None
         self._disabled = False
 
-    def register_processor(self, processor: TracingProcessor):
+    def register_processor(self, processor: TracingProcessor) -> None:
         """
         Add a processor to the list of processors. Each processor will receive all traces/spans.
         """
         self._multi_processor.add_tracing_processor(processor)
 
-    def set_processors(self, processors: list[TracingProcessor]):
+    def set_processors(self, processors: list[TracingProcessor]) -> None:
         """
         Set the list of processors. This will replace the current list of processors.
         """

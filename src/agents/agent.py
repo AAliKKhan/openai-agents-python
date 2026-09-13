@@ -687,7 +687,6 @@ class Agent(AgentBase, Generic[TContext]):
 
         async def _run_agent_impl(context: ToolContext, input_json: str) -> Any:
             from .run import DEFAULT_MAX_TURNS, Runner
-            from .tool_context import ToolContext
 
             tool_name = (
                 context.tool_name if isinstance(context, ToolContext) else tool_name_resolved

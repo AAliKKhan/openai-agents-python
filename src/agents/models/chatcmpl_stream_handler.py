@@ -182,7 +182,7 @@ def _merge_buffered_metadata(
 
 
 class SequenceNumber:
-    def __init__(self):
+    def __init__(self) -> None:
         self._sequence_number = 0
 
     def get_and_increment(self) -> int:
