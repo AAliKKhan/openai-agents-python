@@ -18,7 +18,7 @@ MultiProviderUnknownPrefixMode = Literal["error", "model_id"]
 class MultiProviderMap:
     """A map of model name prefixes to ModelProviders."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._mapping: dict[str, ModelProvider] = {}
 
     def has_prefix(self, prefix: str) -> bool:
@@ -29,7 +29,7 @@ class MultiProviderMap:
         """Returns a copy of the current prefix -> ModelProvider mapping."""
         return self._mapping.copy()
 
-    def set_mapping(self, mapping: dict[str, ModelProvider]):
+    def set_mapping(self, mapping: dict[str, ModelProvider]) -> None:
         """Overwrites the current mapping with a new one."""
         self._mapping = mapping
 
@@ -41,7 +41,7 @@ class MultiProviderMap:
         """
         return self._mapping.get(prefix)
 
-    def add_provider(self, prefix: str, provider: ModelProvider):
+    def add_provider(self, prefix: str, provider: ModelProvider) -> None:
         """Adds a new prefix -> ModelProvider mapping.
 
         Args:
@@ -50,7 +50,7 @@ class MultiProviderMap:
         """
         self._mapping[prefix] = provider
 
-    def remove_provider(self, prefix: str):
+    def remove_provider(self, prefix: str) -> None:
         """Removes the mapping for the given prefix.
 
         Args:

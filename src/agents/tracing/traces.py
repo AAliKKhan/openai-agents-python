@@ -419,7 +419,7 @@ class NoOpTrace(Trace):
         ```
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._started = False
         self._prev_context_token: contextvars.Token[Trace | None] | None = None
 
@@ -434,17 +434,17 @@ class NoOpTrace(Trace):
 
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         if exc_type is GeneratorExit:
             _finish_on_generator_exit(self)
         else:
             self.finish(reset_current=True)
 
-    def start(self, mark_as_current: bool = False):
+    def start(self, mark_as_current: bool = False) -> None:
         if mark_as_current:
             self._prev_context_token = Scope.set_current_trace(self)
 
-    def finish(self, reset_current: bool = False):
+    def finish(self, reset_current: bool = False) -> None:
         if reset_current and self._prev_context_token is not None:
             Scope.reset_current_trace(self._prev_context_token)
             self._prev_context_token = None
