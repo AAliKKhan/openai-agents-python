@@ -588,7 +588,7 @@ class FunctionTool:
 
     __wrapped__ = _FunctionToolWrappedCallableDescriptor()
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.allowed_callers = _normalize_tool_allowed_callers(
             self.allowed_callers,
             tool_name=self.qualified_name,

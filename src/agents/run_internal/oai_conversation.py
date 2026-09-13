@@ -166,7 +166,7 @@ class OpenAIServerConversationTracker:
     )
     delivered_item_sources: dict[int, _PreparedItemSource] = field(default_factory=dict)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Log initial tracker state to make conversation resume behavior debuggable."""
         logger.debug(
             "Created OpenAIServerConversationTracker for conv_id=%s, prev_resp_id=%s",

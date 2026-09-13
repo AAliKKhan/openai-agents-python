@@ -429,7 +429,7 @@ class Agent(AgentBase, Generic[TContext]):
             reset_tool_choice: bool = True,
         ) -> None: ...
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         from typing import get_origin
 
         if not isinstance(self.name, str):
@@ -612,9 +612,10 @@ class Agent(AgentBase, Generic[TContext]):
            called as a tool, and the conversation is continued by the original agent.
 
         Args:
-            tool_name: The name of the tool. If not provided, the agent's name will be used.
+            tool_name: The name of the tool. If not provided, the agent's name will be transformed
+                to function style (e.g., "My Agent" becomes "my_agent").
             tool_description: The description of the tool, which should indicate what it does and
-                when to use it.
+                when to use it. If not provided, defaults to an empty string.
             custom_output_extractor: A function that extracts the output from the agent. If not
                 provided, the last message from the agent will be used. Nested run results expose
                 `agent_tool_invocation` metadata when this agent is invoked via `as_tool()`.
@@ -625,6 +626,14 @@ class Agent(AgentBase, Generic[TContext]):
                 agent run. The callback receives an `AgentToolStreamEvent` containing the nested
                 agent, the originating tool call (when available), and each stream event. When
                 provided, the nested agent is executed in streaming mode.
+            run_config: Optional run configuration for the nested agent run. Can be a `RunConfig`
+                instance or a dict of configuration values.
+            max_turns: Maximum number of turns for the nested agent run. If not provided, the
+                default max turns will be used.
+            hooks: Optional lifecycle hooks for the nested agent run.
+            previous_response_id: Optional previous response ID for conversation continuity.
+            conversation_id: Optional conversation ID for server-managed conversation state.
+            session: Optional session for automatic conversation history management.
             failure_error_function: If provided, generate an error message when the tool (agent) run
                 fails. The message is sent to the LLM. If None, the exception is raised instead.
             needs_approval: Bool or callable to decide if this agent tool should pause for approval.
@@ -1061,12 +1070,6 @@ class Agent(AgentBase, Generic[TContext]):
             if inspect.isawaitable(result):
                 return await result
             return result
-
-        elif self.instructions is not None:
-            logger.error(
-                "Instructions must be a string or a callable function, got %s",
-                type(self.instructions).__name__,
-            )
 
         return None
 
